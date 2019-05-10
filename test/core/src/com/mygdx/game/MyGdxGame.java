@@ -1,12 +1,15 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 
 public class MyGdxGame extends ApplicationAdapter {
@@ -25,6 +28,9 @@ public class MyGdxGame extends ApplicationAdapter {
 	float coralPositionX2 = 650.f;
 	float coralPositionY2 = 90.f;
 
+public class MyGdxGame extends Game {
+
+	private Stage stage;
 	SpriteBatch batch;
 
 	//TEXTURES
@@ -41,6 +47,8 @@ public class MyGdxGame extends ApplicationAdapter {
 	Sprite coralSprite2;
 	Sprite deepSeaSprite;
 	
+	private Texture texturaPlayer;
+
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
@@ -67,10 +75,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		coralSprite.setPosition(coralPositionX1, coralPositionY1);
 		coralSprite2.setPosition(coralPositionX2, coralPositionY2);
 
+		texturaPlayer = new Texture("jellyFish_1.png");
+		MainCharacter MC = new MainCharacter(texturaPlayer);
+		stage = new Stage();
+		stage.addActor(MC);
+		MC.setPosition(100,100);
 	}
 
 	@Override
 	public void render () {
+		super.render();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -119,12 +133,16 @@ public class MyGdxGame extends ApplicationAdapter {
 		coralSprite.draw(batch);
 		coralSprite2.draw(batch);
 		batch.end();
+		stage.act();
+		stage.draw();
 	}
-	
-	@Override
-	public void dispose () {
-		batch.dispose();
-		img.dispose();
+
+		@Override
+		public void dispose () {
+			super.dispose();
+			stage.dispose();
+			texturaPlayer.dispose();
+		}
 	}
 
 }
