@@ -7,7 +7,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+
 
 public class MainCharacter extends Actor {
 
@@ -15,10 +18,15 @@ public class MainCharacter extends Actor {
     Sprite medusaSprite;
     int xPosicion = -30;
     int yPosicion = 100;
+    int anchoMedusa = 37;
+    int altoMedusa = 46;
     float velocidadMedusaSubida = 4;
     float velocidadMedusaBajada = 2;
     float boundsMedusa;
+    Rectangle collisionMedusa;
     Boolean MedusaNadando = false;
+    Coral cor;
+    Boolean viva = true;
 
     public MainCharacter(Sprite sprite)
     {
@@ -32,40 +40,44 @@ public class MainCharacter extends Actor {
     }
     @Override
     public void act(float delta){
+        if (viva == true) {
+            if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+                MedusaNadando = true;
+                if (yPosicion >= 310) {
 
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
-        {
-            MedusaNadando = true;
-            if (yPosicion >= 310){
-
-                yPosicion = 310;
+                    yPosicion = 310;
+                }
+            } else {
+                MedusaNadando = false;
             }
+
+            if (MedusaNadando == true) {
+                //setY(getY()+velocidadMedusaSubida*delta);
+                yPosicion += velocidadMedusaSubida;
+                medusaSprite.setPosition(xPosicion, yPosicion);
+            } else {
+
+
+                if (yPosicion <= -100) {
+                    yPosicion = -100;
+                }
+                yPosicion -= velocidadMedusaBajada;
+                medusaSprite.setPosition(xPosicion, yPosicion);
+            }
+            recalcularBB();
         }
         else
         {
-            MedusaNadando = false;
+            System.out.println("!TOCADO!");
+
         }
 
-        if (MedusaNadando == true)
-        {
-            //setY(getY()+velocidadMedusaSubida*delta);
-            yPosicion+= velocidadMedusaSubida;
-            medusaSprite.setPosition(xPosicion,yPosicion);
-        }
-        else
-        {
-            if(yPosicion <= -100)
-            {
-                yPosicion = -100;
-            }
-            yPosicion -= velocidadMedusaBajada;
-            medusaSprite.setPosition(xPosicion, yPosicion);
-        }
-
-        System.out.println(yPosicion);
-        System.out.println(Gdx.graphics.getHeight());
 
 
-
+    }
+    public void recalcularBB()
+    {
+        collisionMedusa.setX(xPosicion);
+        collisionMedusa.setY(yPosicion);
     }
 }
