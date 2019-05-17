@@ -12,15 +12,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 
-public class MyGdxGame extends ApplicationAdapter {
-	int xMedusa=-30;
-	int yMedusa=100;
-	float velocidadMedusaSubida = 4;
-	float velocidadMedusaBajada = 2;
+public class MyGdxGame extends Game {
+
 	int velocidadCoral = -3;
 	int finDePantallaCoral = -200;
-	Boolean MedusaNadando = false;
-	float startTime = 0;
 
 	float coralPositionX1 = 600.f;
 	float coralPositionY1 = -270.f;
@@ -28,7 +23,6 @@ public class MyGdxGame extends ApplicationAdapter {
 	float coralPositionX2 = 650.f;
 	float coralPositionY2 = 90.f;
 
-public class MyGdxGame extends Game {
 
 	private Stage stage;
 	SpriteBatch batch;
@@ -36,37 +30,33 @@ public class MyGdxGame extends Game {
 	//TEXTURES
 
 	Texture img;
-	Texture medusa;
+
 	Texture Coral;
 	Texture DeepSea;
 
 	//Sprite
 
-	Sprite medusaSprite;
+	Sprite MedusaSprite;
 	Sprite coralSprite;
 	Sprite coralSprite2;
 	Sprite deepSeaSprite;
-	
+
 	private Texture texturaPlayer;
+
+	MainCharacter MC;
 
 	@Override
 	public void create () {
+		stage = new Stage();
+
 		batch = new SpriteBatch();
-		medusa = new Texture ("jellyFish_1.png");
 		Coral = new Texture ("coral_pixel.png");
 		DeepSea = new Texture ("DeepSea.png");
 
 
-		medusaSprite = new Sprite(medusa);
 		coralSprite = new Sprite(Coral);
 		coralSprite2 = new Sprite(Coral);
 		deepSeaSprite = new Sprite(DeepSea);
-
-
-
-
-		medusaSprite.setPosition(xMedusa,yMedusa);
-		medusaSprite.setScale(0.2f);
 
 		coralSprite.setScale(0.2f);
 		coralSprite2.setScale(0.2f);
@@ -76,10 +66,9 @@ public class MyGdxGame extends Game {
 		coralSprite2.setPosition(coralPositionX2, coralPositionY2);
 
 		texturaPlayer = new Texture("jellyFish_1.png");
-		MainCharacter MC = new MainCharacter(texturaPlayer);
-		stage = new Stage();
+		MedusaSprite = new Sprite(texturaPlayer);
+		MC=new MainCharacter(MedusaSprite);
 		stage.addActor(MC);
-		MC.setPosition(100,100);
 	}
 
 	@Override
@@ -87,29 +76,6 @@ public class MyGdxGame extends Game {
 		super.render();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-		if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
-		{
-			MedusaNadando = true;
-		}
-		else
-		{
-			MedusaNadando = false;
-		}
-
-		startTime = System.currentTimeMillis();
-
-
-		if (MedusaNadando == true)
-		{
-			yMedusa+= velocidadMedusaSubida;
-			medusaSprite.setPosition(xMedusa,yMedusa);
-		}
-		else
-		{
-			yMedusa-= velocidadMedusaBajada;
-			medusaSprite.setPosition(xMedusa,yMedusa);
-		}
 
 
 		coralPositionX1+=velocidadCoral;
@@ -129,7 +95,6 @@ public class MyGdxGame extends Game {
 
 		batch.begin();
 		deepSeaSprite.draw(batch);
-		medusaSprite.draw(batch);
 		coralSprite.draw(batch);
 		coralSprite2.draw(batch);
 		batch.end();
@@ -145,4 +110,4 @@ public class MyGdxGame extends Game {
 		}
 	}
 
-}
+
