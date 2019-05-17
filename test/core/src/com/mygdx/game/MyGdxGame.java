@@ -14,22 +14,10 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 
 public class MyGdxGame extends Game {
 
-	int velocidadCoral = -3;
-	int finDePantallaCoral = -200;
-
-	float coralPositionX1 = 600.f;
-	float coralPositionY1 = -270.f;
-
-	float coralPositionX2 = 650.f;
-	float coralPositionY2 = 90.f;
-
-
 	private Stage stage;
 	SpriteBatch batch;
 
-	//TEXTURES
-
-	Texture img;
+	//TEXTURE
 
 	Texture Coral;
 	Texture DeepSea;
@@ -44,31 +32,42 @@ public class MyGdxGame extends Game {
 	private Texture texturaPlayer;
 
 	MainCharacter MC;
+	Coral Koral;
+	Coral Koral2;
+
 
 	@Override
 	public void create () {
 		stage = new Stage();
 
 		batch = new SpriteBatch();
-		Coral = new Texture ("coral_pixel.png");
+
 		DeepSea = new Texture ("DeepSea.png");
 
 
-		coralSprite = new Sprite(Coral);
-		coralSprite2 = new Sprite(Coral);
+
+		//coralSprite2 = new Sprite(Coral);
 		deepSeaSprite = new Sprite(DeepSea);
 
-		coralSprite.setScale(0.2f);
-		coralSprite2.setScale(0.2f);
-		coralSprite2.setRotation(180.f);
 
-		coralSprite.setPosition(coralPositionX1, coralPositionY1);
-		coralSprite2.setPosition(coralPositionX2, coralPositionY2);
+		//coralSprite2.setScale(0.2f);
+		//coralSprite2.setRotation(180.f);
+
+		//coralSprite.setPosition(coralPositionX1, coralPositionY1);
+		//coralSprite2.setPosition(coralPositionX2, coralPositionY2);
 
 		texturaPlayer = new Texture("jellyFish_1.png");
 		MedusaSprite = new Sprite(texturaPlayer);
 		MC=new MainCharacter(MedusaSprite);
 		stage.addActor(MC);
+
+		Coral = new Texture ("coral_pixel.png");
+		coralSprite = new Sprite(Coral);
+		Koral=new Coral(coralSprite);
+		Koral2=new Coral(coralSprite);
+		stage.addActor(Koral);
+
+
 	}
 
 	@Override
@@ -78,25 +77,12 @@ public class MyGdxGame extends Game {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 
-		coralPositionX1+=velocidadCoral;
-		coralPositionX2+=velocidadCoral;
-		coralSprite.setPosition(coralPositionX1,coralPositionY1);
-		coralSprite2.setPosition(coralPositionX2,coralPositionY2);
 
-		if (coralPositionX1 < finDePantallaCoral)
-		{
-			coralPositionX1 = 600;
-		}
-
-		if (coralPositionX2 < finDePantallaCoral)
-		{
-			coralPositionX2 = 650;
-		}
 
 		batch.begin();
 		deepSeaSprite.draw(batch);
-		coralSprite.draw(batch);
-		coralSprite2.draw(batch);
+		//coralSprite.draw(batch);
+		//coralSprite2.draw(batch);
 		batch.end();
 		stage.act();
 		stage.draw();
