@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -16,8 +17,8 @@ public class MainCharacter extends Actor {
     int yPosicion = 100;
     float velocidadMedusaSubida = 4;
     float velocidadMedusaBajada = 2;
+    float boundsMedusa;
     Boolean MedusaNadando = false;
-
 
     public MainCharacter(Sprite sprite)
     {
@@ -35,12 +36,15 @@ public class MainCharacter extends Actor {
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
         {
             MedusaNadando = true;
+            if (yPosicion >= 310){
+
+                yPosicion = 310;
+            }
         }
         else
         {
             MedusaNadando = false;
         }
-
 
         if (MedusaNadando == true)
         {
@@ -50,9 +54,16 @@ public class MainCharacter extends Actor {
         }
         else
         {
-            yPosicion-= velocidadMedusaBajada;
-            medusaSprite.setPosition(xPosicion,yPosicion);
+            if(yPosicion <= -100)
+            {
+                yPosicion = -100;
+            }
+            yPosicion -= velocidadMedusaBajada;
+            medusaSprite.setPosition(xPosicion, yPosicion);
         }
+
+        System.out.println(yPosicion);
+        System.out.println(Gdx.graphics.getHeight());
 
 
 
