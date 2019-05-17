@@ -100,6 +100,8 @@ public class MyGdxGame extends Game {
 		batch.end();
 		stage.act();
 		stage.draw();
+
+
 	}
 
 		@Override
