@@ -2,55 +2,62 @@ package com.mygdx.game;
 
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+
+import org.omg.CORBA.Current;
 
 public class MainCharacter extends Actor {
 
-   public Texture medusa;
-    Sprite medusaSprite;
+    Animation Anim;
+
     int xPosicion = -30;
     int yPosicion = 100;
     float velocidadMedusaSubida = 4;
     float velocidadMedusaBajada = 2;
     float boundsMedusa;
     Boolean MedusaNadando = false;
+    private TextureRegion currentRegion;
+    private float time = 0;
 
-    public MainCharacter(Sprite sprite)
+    public MainCharacter(Animation Up)
     {
-        this.medusaSprite = sprite;
-        medusaSprite.setScale(0.2f);
+        this.Anim = Up;
+
     }
     @Override
-    public void draw(Batch batch, float parentAlpha) {
-             medusaSprite.draw(batch);
+    public void draw(Batch batch, float ParentAlpha){
+        batch.draw(currentRegion, xPosicion, yPosicion);
 
     }
     @Override
     public void act(float delta){
 
+        time += delta;
+        currentRegion = (TextureRegion)Anim.getKeyFrame(time,true);
+
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE))
         {
             MedusaNadando = true;
-            if (yPosicion >= 310){
+            if (yPosicion >= Gdx.graphics.getHeight() - 165){
 
-                yPosicion = 310;
+                yPosicion = Gdx.graphics.getHeight()-165;
             }
         }
         else
-        {
-            MedusaNadando = false;
-        }
+            {
+                MedusaNadando = false;
+            }
 
-        if (MedusaNadando == true)
-        {
-            //setY(getY()+velocidadMedusaSubida*delta);
+            if (MedusaNadando == true)
+            {
             yPosicion+= velocidadMedusaSubida;
-            medusaSprite.setPosition(xPosicion,yPosicion);
+
         }
         else
         {
@@ -59,7 +66,8 @@ public class MainCharacter extends Actor {
                 yPosicion = -100;
             }
             yPosicion -= velocidadMedusaBajada;
-            medusaSprite.setPosition(xPosicion, yPosicion);
+
+
         }
 
         System.out.println(yPosicion);

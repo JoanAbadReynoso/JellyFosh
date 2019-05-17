@@ -7,8 +7,10 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 
@@ -16,7 +18,9 @@ public class MyGdxGame extends Game {
 
 	private Stage stage;
 	SpriteBatch batch;
-
+	AssetManager manager;
+	Animation Up;
+	private TextureAtlas textureAtlas;
 	//TEXTURE
 
 	Texture Coral;
@@ -24,12 +28,12 @@ public class MyGdxGame extends Game {
 
 	//Sprite
 
-	Sprite MedusaSprite;
+
 	Sprite coralSprite;
 	Sprite coralSprite2;
 	Sprite deepSeaSprite;
 
-	private Texture texturaPlayer;
+
 
 	MainCharacter MC;
 	Coral Koral;
@@ -39,15 +43,22 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create () {
 		stage = new Stage();
-
 		batch = new SpriteBatch();
-
 		DeepSea = new Texture ("DeepSea.png");
+
 
 
 
 		//coralSprite2 = new Sprite(Coral);
 		deepSeaSprite = new Sprite(DeepSea);
+		manager = new AssetManager();
+		manager.load("medusaAnimation.atlas", TextureAtlas.class);
+		textureAtlas = new TextureAtlas(Gdx.files.internal("medusaAnimation.atlas"));
+
+
+		Up = new Animation(1/11f, textureAtlas.findRegions("JellyFish"));
+		Up.setPlayMode(Animation.PlayMode.LOOP);
+
 
 
 		//coralSprite2.setScale(0.2f);
@@ -56,17 +67,15 @@ public class MyGdxGame extends Game {
 		//coralSprite.setPosition(coralPositionX1, coralPositionY1);
 		//coralSprite2.setPosition(coralPositionX2, coralPositionY2);
 
-		texturaPlayer = new Texture("jellyFish_1.png");
-		MedusaSprite = new Sprite(texturaPlayer);
-		MC=new MainCharacter(MedusaSprite);
-		stage.addActor(MC);
+
 
 		Coral = new Texture ("coral_pixel.png");
 		coralSprite = new Sprite(Coral);
 		Koral=new Coral(coralSprite);
 		Koral2=new Coral(coralSprite);
 		stage.addActor(Koral);
-
+		MC=new MainCharacter(Up);
+		stage.addActor(MC);
 
 	}
 
@@ -94,7 +103,7 @@ public class MyGdxGame extends Game {
 		public void dispose () {
 			super.dispose();
 			stage.dispose();
-			texturaPlayer.dispose();
+
 		}
 	}
 
